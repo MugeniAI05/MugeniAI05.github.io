@@ -257,9 +257,9 @@ ___
 
 Visual inspection of ROC curves confirms XGBoost’s superiority, closely followed by Random Forest.
 
-![ROC Curve - Logistic Regression](/img/posts/roc_logistic.png)
-![ROC Curve - XGBoost](/img/posts/roc_xgboost.png)
-![ROC Curve - Random Forest](/img/posts/roc_rf.png)
+![ROC Curve - Logistic Regression](/img/posts/roc-curve-lg.png)
+![ROC Curve - XGBoost](/img/posts/roc-curve-xgb.png)
+![ROC Curve - Random Forest](/img/posts/roc-curve-rf.png)
 
 <br>
 
@@ -267,7 +267,7 @@ Visual inspection of ROC curves confirms XGBoost’s superiority, closely follow
 
 Random Forest and XGBoost had minimal misclassifications.
 
-![Confusion Matrix - Random Forest](/img/posts/confusion_rf.png)
+![Confusion Matrix - Random Forest](/img/posts/confusion-matrix-rf.png)
 
 <br>
 
@@ -275,7 +275,7 @@ Random Forest and XGBoost had minimal misclassifications.
 
 Random Forest provided insight into which features were most influential in detecting fraud.
 
-![Feature Importance - Random Forest](/img/posts/feature_importance_rf.png)
+![Feature Importance - Random Forest](/img/posts/feature-importance-ranking-rf.png)
 
 <br>
 
@@ -283,7 +283,7 @@ Random Forest provided insight into which features were most influential in dete
 
 We also visualized correlation between features to check for multicollinearity.
 
-![Correlation Heatmap](/img/posts/correlation_heatmap.png)
+![Correlation Heatmap](/img/posts/feature-corr-heatmap-rf.png)
 
 ___
 
