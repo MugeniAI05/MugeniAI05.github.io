@@ -105,6 +105,124 @@ The *Class* variable in our dataset is the target outcome:
 - A value of **0** represents a **legitimate** transaction  
 - A value of **1** represents a **fraudulent** transaction
   
-<be>
+Our goal was to accurately identify transactions labeled as `1` (fraud), without misclassifying too many legitimate ones. A well-performing model in this context is one that maximizes **recall** and **precision** for the minority class, while minimizing the cost of false positives.
 
-My goal was to accurately identify transactions labeled as `1` (fraud), without misclassifying too many legitimate ones. A well-performing model in this context is one that maximizes **recall** and **precision** for the minority class, while minimizing the cost of false positives.
+___
+
+# Data Overview  <a name="data-overview"></a>
+
+The dataset contains **568,630** credit card transactions across **30 anonymized features** (`V1` through `V28`, `Amount`, and `Time`). The target variable is `Class`, where:
+
+- `0` = Legitimate transaction  
+- `1` = Fraudulent transaction
+
+Key points:
+
+- No missing values were found in the dataset  
+- The `Amount` variable ranges from $50 to over $24,000  
+- Features were scaled using `StandardScaler`
+- The dataset was split into 80% training and 20% testing
+
+```python
+df = pd.read_csv("creditcard_2023.csv")
+df.info()
+df.Amount.describe()
+df.isnull().sum()
+
+# Drop ID and target column
+X = df.drop(["id", "Class"], axis=1)
+y = df["Class"]
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+___
+
+# Modelling Overview <a name="modelling-overview"></a>
+
+We built and evaluated three models:
+
+- Logistic Regression  
+- XGBoost Classifier  
+- Random Forest  
+
+Evaluation was based on:
+
+- F1 Score (cross-validation)  
+- Classification report (precision, recall)  
+- ROC AUC Score and ROC curve  
+- Feature importance (for Random Forest)
+
+___
+
+# Logistic Regression <a name="logreg-title"></a>
+
+Logistic Regression was used as a baseline model. We applied class weighting to handle imbalance.
+
+```python
+log_model = LogisticRegression(
+    max_iter=1000,
+    class_weight='balanced',
+    random_state=42
+)
+
+cv_scores_log = cross_val_score(log_model, X_train_scaled, y_train, cv=5, scoring='f1')
+log_model.fit(X_train_scaled, y_train)
+log_y_pred = log_model.predict(X_test_scaled)
+print(classification_report(y_test, log_y_pred))
+```
+
+**Cross-validated F1 Score**: 0.964  
+**ROC AUC**: 0.97
+
+___
+
+# XGBoost Classifier <a name="xgboost-title"></a>
+
+XGBoost handled class imbalance with `scale_pos_weight`.
+
+```python
+xgb_model = XGBClassifier(
+    use_label_encoder=False,
+    eval_metric='logloss',
+    scale_pos_weight=(y_train == 0).sum() / (y_train == 1).sum(),
+    random_state=42
+)
+
+cv_scores_xgb = cross_val_score(xgb_model, X_train_scaled, y_train, cv=5, scoring='f1')
+xgb_model.fit(X_train_scaled, y_train)
+xgb_y_pred = xgb_model.predict(X_test_scaled)
+print(classification_report(y_test, xgb_y_pred))
+```
+
+**Cross-validated F1 Score**: 0.999  
+**ROC AUC**: 1.00
+
+___
+
+# Random Forest <a name="rf-title"></a>
+
+Random Forest was tuned with `max_depth=10` and `min_samples_split=5`.
+
+```python
+rf_model = RandomForestClassifier(
+    n_estimators=100,
+    max_depth=10,
+    min_samples_split=5,
+    random_state=42
+)
+
+cv_scores_rf = cross_val_score(rf_model, X_train_scaled, y_train, cv=5, scoring='f1')
+rf_model.fit(X_train_scaled, y_train)
+y_pred_rf = rf_model.predict(X_test_scaled)
+print(classification_report(y_test, y_pred_rf))
+```
+
+**Cross-validated F1 Score**: 0.985  
+**ROC AUC**: 0.99
