@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Predicting Customer Loyalty Using ML
+title: Fraud Detection Using Machine Learning: Logistic Regression, Random Forest, and XGBoost
 image: "/posts/regression-title-img.png"
 tags: [Customer Loyalty, Machine Learning, Regression, Python]
 ---
