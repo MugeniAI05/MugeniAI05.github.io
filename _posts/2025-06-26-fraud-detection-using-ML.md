@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Fraud Detection Using Machine Learning: Logistic Regression, Random Forest, and XGBoost"
-image: "/posts/regression-title-img.png"
+image: "/posts/fraud-detection.jpeg"
 tags: [Customer Loyalty, Machine Learning, Regression, Python]
 ---
 
