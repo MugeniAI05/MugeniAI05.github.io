@@ -104,4 +104,7 @@ The *Class* variable in our dataset is the target outcome:
 
 - A value of **0** represents a **legitimate** transaction  
 - A value of **1** represents a **fraudulent** transaction
-Our goal was to accurately identify transactions labeled as `1` (fraud), without misclassifying too many legitimate ones. A well-performing model in this context is one that maximizes **recall** and **precision** for the minority class, while minimizing the cost of false positives.
+  
+<be>
+
+My goal was to accurately identify transactions labeled as `1` (fraud), without misclassifying too many legitimate ones. A well-performing model in this context is one that maximizes **recall** and **precision** for the minority class, while minimizing the cost of false positives.
