@@ -226,3 +226,75 @@ print(classification_report(y_test, y_pred_rf))
 
 **Cross-validated F1 Score**: 0.985  
 **ROC AUC**: 0.99
+
+___
+
+# Modelling Summary  <a name="modelling-summary"></a>
+
+The goal of this project was to detect fraudulent transactions accurately, with special focus on **precision**, **recall**, and **AUC** due to the class imbalance.
+
+<br>
+**Metric 1: F1 Score (Cross-Validation)**
+
+* Logistic Regression = 0.964  
+* Random Forest = 0.985  
+* XGBoost = **0.999**
+
+<br>
+**Metric 2: ROC AUC (Test Set)**
+
+* Logistic Regression = 0.97  
+* Random Forest = 0.99  
+* XGBoost = **1.00**
+
+XGBoost emerged as the best-performing model. While all models performed well, XGBoost achieved near-perfect precision and recall on the test set, making it ideal for deployment.
+
+___
+
+# Visualizations <a name="visualizations"></a>
+
+### ROC Curves
+
+Visual inspection of ROC curves confirms XGBoost’s superiority, closely followed by Random Forest.
+
+![ROC Curve - Logistic Regression](/img/posts/roc_logistic.png)
+![ROC Curve - XGBoost](/img/posts/roc_xgboost.png)
+![ROC Curve - Random Forest](/img/posts/roc_rf.png)
+
+<br>
+
+### Confusion Matrix
+
+Random Forest and XGBoost had minimal misclassifications.
+
+![Confusion Matrix - Random Forest](/img/posts/confusion_rf.png)
+
+<br>
+
+### Feature Importance
+
+Random Forest provided insight into which features were most influential in detecting fraud.
+
+![Feature Importance - Random Forest](/img/posts/feature_importance_rf.png)
+
+<br>
+
+### Correlation Heatmap
+
+We also visualized correlation between features to check for multicollinearity.
+
+![Correlation Heatmap](/img/posts/correlation_heatmap.png)
+
+___
+
+# Growth & Next Steps <a name="growth-next-steps"></a>
+
+Model performance is strong, especially with XGBoost, but future enhancements could include:
+
+- **SMOTE or ADASYN** for synthetic oversampling  
+- Hyperparameter optimization (e.g. GridSearchCV or Optuna)  
+- Real-time fraud detection pipeline with **streaming data**  
+- Deeper time-based feature engineering  
+- Explore models like LightGBM or CatBoost  
+- Deploy with monitoring for model drift and performance decay
+
