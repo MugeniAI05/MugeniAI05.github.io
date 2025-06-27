@@ -85,19 +85,6 @@ Given that fraud detection prioritizes minimizing false negatives while balancin
 <br>
 <br>
 
-### Growth/Next Steps <a name="overview-growth"></a>
-
-Although model performance was excellent, especially with XGBoost, further improvements and extensions could include:
-
-- Applying advanced **hyperparameter tuning** (GridSearch, Optuna, or Bayesian optimization)
-- Testing **oversampling techniques** like SMOTE/ADASYN to compare with class weights
-- Exploring **deep learning models** or **AutoML** platforms for further automation
-- Deploying the model into a **real-time fraud detection pipeline** with drift monitoring
-- Experimenting with time-based features (e.g., rolling transaction behavior, user patterns)
-
-<br>
-<br>
-
 ### Key Definition  <a name="overview-definition"></a>
 
 The *Class* variable in our dataset is the target outcome:
@@ -287,14 +274,13 @@ We also visualized correlation between features to check for multicollinearity.
 
 ___
 
-# Growth & Next Steps <a name="growth-next-steps"></a>
+### Growth/Next Steps <a name="overview-growth"></a>
 
-Model performance is strong, especially with XGBoost, but future enhancements could include:
+Although model performance was excellent, especially with XGBoost, further improvements and extensions could include:
 
-- **SMOTE or ADASYN** for synthetic oversampling  
-- Hyperparameter optimization (e.g. GridSearchCV or Optuna)  
-- Real-time fraud detection pipeline with **streaming data**  
-- Deeper time-based feature engineering  
-- Explore models like LightGBM or CatBoost  
-- Deploy with monitoring for model drift and performance decay
+- Applying advanced **hyperparameter tuning** (GridSearch, Optuna, or Bayesian optimization)
+- Testing **oversampling techniques** like SMOTE/ADASYN to compare with class weights
+- Exploring **deep learning models** or **AutoML** platforms for further automation
+- Deploying the model into a **real-time fraud detection pipeline** with drift monitoring
+- Experimenting with time-based features (e.g., rolling transaction behavior, user patterns)
 
