@@ -74,7 +74,7 @@ ___
 
 ### Class Imbalance
 
-![alt text](/img/posts/Fraud-Rate.png "Fraud Rate Distribution")
+"/posts/Fraud-Rate.png"
 
 ### Transaction Types
 
