@@ -69,9 +69,9 @@ My testing showed that XGBoost achieved the best fraud detection performance in 
 
 Using assumed costs of:
 
-False Positive (FP) = $5 (customer inconvenience)
+- False Positive (FP) = $5 (customer inconvenience)
 
-False Negative (FN) = $500 (financial loss)
+- False Negative (FN) = $500 (financial loss)
 
 | Threshold           | FP | FN | Total Cost |
 |-------------------|--------|-----------|----------|
@@ -107,6 +107,10 @@ While the XGBoost model delivered high recall, particularly important in minimiz
 From a deployment perspective, setting up model monitoring would be critical. Tracking metrics such as daily fraud detection rates, recall, and false positive volume would enable early detection of performance issues. A human-in-the-loop system could be implemented to review high-risk predictions, ensuring a balance between customer experience and fraud prevention. Additionally, enriching the dataset with behavioral signals, device metadata, and engineered features like transaction frequency and velocity would likely strengthen the model’s ability to flag anomalous patterns.
 
 ### Key Definitions <a name="key-definitions"></a>
+
+In this project, fraud is defined according to the dataset’s isFraud column, where a value of 1 indicates a fraudulent transaction and 0 indicates a legitimate one. Fraudulent transactions occur exclusively in TRANSFER and CASH_OUT transaction types. These involve money being moved from one account to another (TRANSFER) or withdrawn from an account (CASH_OUT).
+
+Another relevant column is isFlaggedFraud, which indicates whether a transaction was flagged by the system as potentially fraudulent. However, in the dataset, only 16 transactions were flagged this way, making isFraud the primary label used for training and evaluation.
 ___
 
 # Data Overview <a name="data-overview"></a>
