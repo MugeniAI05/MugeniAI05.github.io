@@ -13,7 +13,8 @@ In this project, we build a credit card fraud detection system using supervised 
     - [Context](#overview-context)
     - [Actions](#overview-actions)
     - [Results](#overview-results)
-    - [Why XGBoost](#overview-why-xgboost)
+    - [Growth/Next Steps](#overview-next-steps)
+    - [Key Definitions](#key-definitions)
 - [01. Data Overview](#data-overview)
 - [02. Exploratory Data Analysis](#eda)
 - [03. Feature Engineering](#feature-engineering)
@@ -29,19 +30,29 @@ ___
 
 ### Context <a name="overview-context"></a>
 
-The dataset contains 6.3 million anonymized bank transactions, out of which only **0.13%** are fraudulent. The transactions include features like type, amount, balances, and sender/receiver IDs. 
+I worked on a real-world fraud detection problem using a financial transactions dataset containing over 6 million records. A major challenge in this dataset was severe class imbalance; fraudulent transactions made up only 0.13% of all entries.
 
-The extreme class imbalance poses challenges for standard machine learning models, which often default to predicting the majority class (non-fraud). The cost of missing a fraudulent transaction (false negative) is significantly higher than flagging a legitimate one (false positive). This makes **recall** a critical metric.
+My objective was to build a machine learning model that could detect fraud with high recall, since missing fraudulent activity (false negatives) is far more costly than flagging legitimate transactions (false positives) in the banking industry.
 
 ### Actions <a name="overview-actions"></a>
 
-- Cleaned and explored the data to understand transaction and fraud distribution
-- Engineered new features that help isolate anomalies
-- Trained and evaluated three models: Logistic Regression, Random Forest, and XGBoost
-- Conducted cost-based threshold tuning on XGBoost predictions
-- Used SHAP to understand feature influence and ensure model transparency
+I started by exploring the dataset to identify transaction types, detect patterns, and engineer meaningful features like balanceDiffOrg and balanceDiffDest. I focused on high-risk transaction types such as TRANSFER and CASH_OUT, where most fraud cases occurred.
+
+To address the class imbalance, I tested several classification models:
+
+- **Logistic Regression** with balanced class weights
+
+- **Random Forest**
+
+- **XGBoost**, tuned with scale_pos_weight and custom threshold adjustments
+
+I evaluated performance using precision, recall, confusion matrices, and business cost simulations. XGBoost emerged as the top performer, achieving 99% recall at a 0.35 classification threshold, with manageable false positives. I used SHAP values to interpret model predictions, ensuring explainability for a finance context.
 
 ### Results <a name="overview-results"></a>
+
+My testing showed that XGBoost achieved the best fraud detection performance in terms of recall, which was the primary metric of interest due to the high cost of false negatives in a financial context.
+
+**Metric 1: Classification Report (Test Set, Default Threshold)**
 
 | Model              | Recall | Precision | F1-Score | AUC   |
 |-------------------|--------|-----------|----------|-------|
@@ -49,13 +60,53 @@ The extreme class imbalance poses challenges for standard machine learning model
 | Random Forest       | 0.77   | 0.97      | 0.86     | —     |
 | **XGBoost**         | **0.99** | 0.49    | 0.66     | 0.96  |
 
-### Why XGBoost? <a name="overview-why-xgboost"></a>
 
-- **High Recall:** Catches 99% of fraud cases, reducing costly false negatives
-- **Threshold Tuning:** Custom threshold setting minimizes business costs
-- **Interpretability:** SHAP values explain model logic for regulatory compliance
-- **Imbalance Handling:** `scale_pos_weight` boosts performance on rare fraud class
+**Metric 2: Confusion Matrix at Optimized Threshold (0.35)**
 
+![alt text](/img/posts/confusion-matrixviz.png "Confusion Matrix")
+
+**Metric 3: Business Cost Simulation**
+
+Using assumed costs of:
+
+False Positive (FP) = $5 (customer inconvenience)
+
+False Negative (FN) = $500 (financial loss)
+
+| Threshold           | FP | FN | Total Cost |
+|-------------------|--------|-----------|----------|
+| 0.15       | 5,203 | 10     | $31,015     |
+| 0.30        | 3,365 | 22      | $27,825    |
+| **0.35 **      | **3,067** | **24**    | **$27,335** (lowest)     |
+| 0.40       | 2,848  | 0.49    | $28,240     |
+
+Based on this cost simulation, I selected 0.35 as the optimal decision threshold for deployment.
+
+**Model Explainability**
+
+To ensure transparency, I used SHAP to analyze the XGBoost model:
+
+The top features influencing fraud predictions were:
+
+- amount,
+
+- balanceDiffOrg,
+
+- balanceDiffDest,
+
+- and encoded transaction type.
+
+SHAP summary plots helped visualize feature importance, supporting financial compliance and auditability.
+
+![alt text](/img/posts/feature-importance.png "SHAP Feature Importance")
+
+### Growth/Next Steps <a name="overview-next-steps"></a>
+
+While the XGBoost model delivered high recall, particularly important in minimizing missed fraudulent transactions, further improvements could be made to enhance overall performance and production readiness. Exploring additional modeling techniques such as LightGBM or CatBoost may improve precision without compromising recall. Incorporating time-based validation strategies would help detect concept drift, ensuring the model adapts as fraud tactics evolve. Periodic retraining—monthly or quarterly—could help maintain model effectiveness in a changing environment.
+
+From a deployment perspective, setting up model monitoring would be critical. Tracking metrics such as daily fraud detection rates, recall, and false positive volume would enable early detection of performance issues. A human-in-the-loop system could be implemented to review high-risk predictions, ensuring a balance between customer experience and fraud prevention. Additionally, enriching the dataset with behavioral signals, device metadata, and engineered features like transaction frequency and velocity would likely strengthen the model’s ability to flag anomalous patterns.
+
+### Key Definitions <a name="key-definitions"></a>
 ___
 
 # Data Overview <a name="data-overview"></a>
