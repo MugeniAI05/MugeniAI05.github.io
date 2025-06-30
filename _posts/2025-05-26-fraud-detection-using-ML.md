@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fraud Detection Using Machine Learning: Logistic Regression, Random Forest, and XGBoost"
+title: "Credit Card Fraud Detection Using Machine Learning: Logistic Regression, Random Forest, and XGBoost"
 image: "/posts/fraud-detection.png"
 tags: [Fraud Detection, Machine Learning, balanced Data, Python, Credit Card]
 ---
