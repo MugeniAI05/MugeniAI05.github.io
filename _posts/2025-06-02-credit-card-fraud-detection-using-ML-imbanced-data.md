@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Credit Card Fraud Detection on Imbalanced Data Using XGBoost and Cost-Based Threshold Optimization
+title: Fraud Detection on Imbalanced Data Using XGBoost and Cost-Based Threshold Optimization
 image: "/posts/fraud-detection-cover.png"
 tags: [Fraud Detection, Machine Learning, Classification, XGBoost, Python]
 ---
 
-In this project, we build a credit card fraud detection system using supervised machine learning on highly imbalanced data, where fraud cases are rare but costly. We explore the tradeoffs between precision and recall using real-world cost simulations and apply model explainability techniques to ensure interoperability, a key requirement in banking environments.
+In this project, we build a mobile money fraud detection system using supervised machine learning on highly imbalanced data, where fraud cases are rare but costly. We explore the tradeoffs between precision and recall using real-world cost simulations and apply model explainability techniques to ensure interoperability, a key requirement in banking environments.
 
 # Table of contents
 
