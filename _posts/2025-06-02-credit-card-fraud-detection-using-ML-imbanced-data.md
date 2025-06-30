@@ -133,6 +133,8 @@ The dataset consists of 6,362,620 financial transactions, each labeled as fraudu
 
 **Code used to generate the modeling dataset:**
 
+```python
+
 # Drop ID columns and unused flag
 df_model = df.drop(['nameOrig', 'nameDest', 'isFlaggedFraud'], axis=1)
 
@@ -145,6 +147,8 @@ categorical = ['type']
 numerical = ['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']
 X = df_model.drop('isFraud', axis=1)
 y = df_model['isFraud']
+
+```
 
 ___
 
