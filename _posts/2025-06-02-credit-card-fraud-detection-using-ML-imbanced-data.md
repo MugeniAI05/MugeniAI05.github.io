@@ -201,9 +201,9 @@ ___
 
 # Summary & Next Steps <a name="summary"></a>
 
-✅ **XGBoost** was chosen for its 99% recall  
-✅ **Threshold tuning** minimized business cost  
-✅ **SHAP** helped with explainability  
+**XGBoost** was chosen for its 99% recall  
+**Threshold tuning** minimized business cost  
+**SHAP** helped with explainability  
 
 ### Next Steps
 
