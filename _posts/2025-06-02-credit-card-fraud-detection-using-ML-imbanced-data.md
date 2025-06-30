@@ -115,11 +115,36 @@ ___
 
 # Data Overview <a name="data-overview"></a>
 
-- **Total records**: 6.36M
-- **Fraud cases**: ~8.2K (0.13%)
-- **Transaction types**: PAYMENT, TRANSFER, CASH_OUT, etc.
+The dataset consists of 6,362,620 financial transactions, each labeled as fraudulent (isFraud = 1) or not (isFraud = 0). Fraud is extremely rare in this data, making up only 0.13% of all transactions. After initial exploration, I focused on variables relevant to modeling fraud risk. Additional features like balance differences were engineered to capture behavior patterns. The final model used a mix of numerical and categorical features.
 
-Features include sender/receiver IDs, amounts, and before/after balances.
+**Variables used in model:**
+
+| Variable Name     | Type        | Description                                                      |
+|-------------------|-------------|------------------------------------------------------------------|
+| `type`            | Categorical | Transaction type (e.g., TRANSFER, CASH_OUT, PAYMENT)             |
+| `amount`          | Numerical   | Transaction amount                                               |
+| `oldbalanceOrg`   | Numerical   | Sender’s balance before the transaction                          |
+| `newbalanceOrig`  | Numerical   | Sender’s balance after the transaction                           |
+| `oldbalanceDest`  | Numerical   | Receiver’s balance before the transaction                        |
+| `newbalanceDest`  | Numerical   | Receiver’s balance after the transaction                         |
+| `balanceDiffOrg`  | Engineered  | `oldbalanceOrg − newbalanceOrig`; amount debited from sender     |
+| `balanceDiffDest` | Engineered  | `newbalanceDest − oldbalanceDest`; amount credited to receiver   |
+| `isFraud`         | Target      | `1` = fraudulent transaction, `0` = legitimate transaction        |
+
+**Code used to generate the modeling dataset:**
+
+# Drop ID columns and unused flag
+df_model = df.drop(['nameOrig', 'nameDest', 'isFlaggedFraud'], axis=1)
+
+# Create engineered features
+df_model['balanceDiffOrg'] = df_model['oldbalanceOrg'] - df_model['newbalanceOrig']
+df_model['balanceDiffDest'] = df_model['newbalanceDest'] - df_model['oldbalanceDest']
+
+# Define features and target
+categorical = ['type']
+numerical = ['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']
+X = df_model.drop('isFraud', axis=1)
+y = df_model['isFraud']
 
 ___
 
