@@ -112,26 +112,14 @@ From a deployment perspective, setting up model monitoring would be critical. Tr
 
 In this project, fraud is defined according to the dataset’s isFraud column, where a value of 1 indicates a fraudulent transaction and 0 indicates a legitimate one. Fraudulent transactions occur exclusively in TRANSFER and CASH_OUT transaction types. These involve money being moved from one account to another (TRANSFER) or withdrawn from an account (CASH_OUT).
 
-Another relevant column is isFlaggedFraud, which indicates whether a transaction was flagged by the system as potentially fraudulent. However, in the dataset, only 16 transactions were flagged this way, making isFraud the primary label used for training and evaluation.
+Another relevant column is isFlaggedFraud, which indicates whether the system flagged a transaction as potentially fraudulent. However, in the dataset, only 16 transactions were flagged this way, making isFraud the primary label used for training and evaluation.
 ___
 
 # Data Overview <a name="data-overview"></a>
 
-The dataset consists of 6,362,620 financial transactions, each labeled as fraudulent (isFraud = 1) or not (isFraud = 0). Fraud is extremely rare in this data, making up only 0.13% of all transactions. After initial exploration, I focused on variables relevant to modeling fraud risk. Additional features like balance differences were engineered to capture behavior patterns. The final model used a mix of numerical and categorical features.
+The dataset contains 6,362,620 records of anonymized financial transactions for fraud detection. Each row represents a single transaction, with variables describing the type of transaction, the amount, and the balances before and after the transfer. The binary target variable isFraud indicates whether a transaction was fraudulent (1) or not (0). Only about 0.13% of transactions are labeled as fraud, making it a highly imbalanced classification problem.
 
-**Variables used in model:**
-
-| Variable Name     | Type        | Description                                                      |
-|-------------------|-------------|------------------------------------------------------------------|
-| `type`            | Categorical | Transaction type (e.g., TRANSFER, CASH_OUT, PAYMENT)             |
-| `amount`          | Numerical   | Transaction amount                                               |
-| `oldbalanceOrg`   | Numerical   | Sender’s balance before the transaction                          |
-| `newbalanceOrig`  | Numerical   | Sender’s balance after the transaction                           |
-| `oldbalanceDest`  | Numerical   | Receiver’s balance before the transaction                        |
-| `newbalanceDest`  | Numerical   | Receiver’s balance after the transaction                         |
-| `balanceDiffOrg`  | Engineered  | `oldbalanceOrg − newbalanceOrig`; amount debited from sender     |
-| `balanceDiffDest` | Engineered  | `newbalanceDest − oldbalanceDest`; amount credited to receiver   |
-| `isFraud`         | Target      | `1` = fraudulent transaction, `0` = legitimate transaction        |
+To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
 
 **Code used to generate the modeling dataset:**
 
@@ -151,6 +139,20 @@ X = df_model.drop('isFraud', axis=1)
 y = df_model['isFraud']
 
 ```
+
+**Final Feature Dictionary:**
+
+| Variable Name     | Type        | Description                                                      |
+|-------------------|-------------|------------------------------------------------------------------|
+| `type`            | Categorical | Transaction type (e.g., TRANSFER, CASH_OUT, PAYMENT)             |
+| `amount`          | Numerical   | Transaction amount                                               |
+| `oldbalanceOrg`   | Numerical   | Sender’s balance before the transaction                          |
+| `newbalanceOrig`  | Numerical   | Sender’s balance after the transaction                           |
+| `oldbalanceDest`  | Numerical   | Receiver’s balance before the transaction                        |
+| `newbalanceDest`  | Numerical   | Receiver’s balance after the transaction                         |
+| `balanceDiffOrg`  | Engineered  | `oldbalanceOrg − newbalanceOrig`; amount debited from sender     |
+| `balanceDiffDest` | Engineered  | `newbalanceDest − oldbalanceDest`; amount credited to receiver   |
+| `isFraud`         | Target      | `1` = fraudulent transaction, `0` = legitimate transaction        |
 
 ___
 
