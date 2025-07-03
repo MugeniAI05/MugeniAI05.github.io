@@ -129,6 +129,36 @@ While fraud is present only in TRANSFER and CASH_OUT transactions, it is importa
 
 ![alt text](/img/posts/Transaction-Type.png "Transaction Type")
 
+### Fraud Over Time
+
+Although the dataset does not include exact timestamps, the step variable provides a proxy for temporal order. Plotting the number of fraudulent transactions per step reveals the frequency and pattern of fraud attempts over time. This visualization shows that fraud is relatively consistent but exhibits certain spikes—offering potential for modeling time-based fraud detection strategies in the future.
+
+![alt text](/img/posts/Number-of-Fraudulent-Transactions-Overtime.png "Fraud Over Time")
+
+### Suspicious Zero-Balance Behavior
+
+One notable pattern in fraudulent activity is that many TRANSFER and CASH_OUT transactions result in the sender’s balance dropping to zero immediately after the transaction. These cases are especially suspicious when the original balance was non-zero, indicating possible cash-outs by fraudsters. This pattern strongly supports the use of engineered features that capture balance shifts.
+
+How the rows were derived:
+
+```python
+zero_after_transfer = df[
+    (df['oldbalanceOrg'] > 0) &
+    (df['newbalanceOrig'] == 0) &
+    (df['type'].isin(['TRANSFER', 'CASH_OUT']))
+]
+```
+
+### Top Transactors & Fraudulent Senders
+
+To better understand the ecosystem of transactions, I explored the most frequent senders, receivers, and customers associated with fraud. This can help in identifying accounts that may be bots or involved in laundering-like behavior. High-frequency actors—especially those repeatedly involved in fraud—can be flagged for additional scrutiny or modeled as risk factors.
+
+```python
+top_senders = df['nameOrig'].value_counts().head(10)
+top_receivers = df['nameDest'].value_counts().head(10)
+fraud_customers = df[df['isFraud'] == 1]['nameOrig'].value_counts().head(10)
+```
+
 To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
 
 # Feature Engineering <a name="feature-engineering"></a>
@@ -216,11 +246,6 @@ Long-tailed distribution; most transactions are low-value.
 
 Boxplot reveals fraud isn't confined to high amounts.
 
-### Fraud Trends Over Time
-
-![alt text](/img/posts/Number-of-Fraudulent-Transactions-Overtime.png "Fraud Over Time")
-
-Frauds are not evenly distributed over time.
 
 
 
