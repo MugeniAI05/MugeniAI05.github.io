@@ -183,8 +183,6 @@ To understand how these engineered features relate to fraud, I visualized their 
 
 From the correlation matrix above, we can observe that the engineered feature balanceDiffOrg shows the strongest positive correlation with isFraud (correlation = 0.36). This makes sense, as fraudulent transactions often result in the sender’s balance dropping sharply, making this difference a useful signal. In contrast, most other features—including the original balance values—have weak or near-zero correlations with fraud. The balanceDiffDest feature has only a slight correlation (0.03), indicating it may be less informative. Overall, this analysis highlights the value of carefully engineered features over raw balance fields when detecting fraudulent behavior.
 
-___
-
 **Code used to generate the modeling dataset:**
 
 ```python
@@ -220,34 +218,29 @@ y = df_model['isFraud']
 
 ___
 
-# Exploratory Data Analysis <a name="eda"></a>
+# Modelling Overview
 
-Shows the rarity of fraud cases.
+The goal of this project is to build a classification model that can accurately detect fraudulent financial transactions based on engineered features such as transaction type, transaction amount, and balance shifts before and after the transaction.
 
+Given the severe class imbalance—fraudulent cases represent only 0.13% of the dataset—the primary focus was to maximize recall, minimizing missed fraud cases (false negatives), which are costlier than false alarms.
 
+A machine learning pipeline was implemented to ensure consistency and scalability across all models. This pipeline included:
 
-Distribution of transaction types (PAYMENT dominates).
+- Preprocessing using StandardScaler for numerical features and OneHotEncoder for the categorical type variable
 
-### Fraud Rate by Type
+- Train-test splitting with stratification on the target variable to maintain class distribution
 
-![alt text](/img/posts/Fraudulent Distribution-in-Transfer-Cash_Out.png "Fraud by Type")
+- Model training and evaluation using cross-validation and business-focused performance metrics
 
-Frauds mostly occur in TRANSFER and CASH_OUT.
+As we are predicting a binary outcome (isFraud), we evaluated the following classification algorithms:
 
-### Transaction Amounts
+- Logistic Regression with balanced class weights
 
-![alt text](/img/posts/Distribution-of-Transaction-Amounts-(log scale).png "Log Scaled Amounts")
+- Random Forest Classifier
 
-Long-tailed distribution; most transactions are low-value.
+- XGBoost Classifier, tuned with scale_pos_weight and threshold optimization
 
-### Amount vs. Fraud (under $50k)
-
-![alt text](/img/posts/Amount-vs-isFraud-(Filtered-under-50k).png "Amount vs. isFraud")
-
-Boxplot reveals fraud isn't confined to high amounts.
-
-
-
+Each model was assessed using precision, recall, F1-score, and confusion matrices, with XGBoost emerging as the top performer in identifying fraudulent transactions with high recall and interpretable results.
 
 # Logistic Regression <a name="logistic-regression"></a>
 
