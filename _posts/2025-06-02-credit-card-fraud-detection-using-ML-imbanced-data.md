@@ -244,18 +244,106 @@ Each model was assessed using precision, recall, F1-score, and confusion matrice
 
 # Logistic Regression <a name="logistic-regression"></a>
 
-### Pipeline
+We implemented Logistic Regression using scikit-learn to build a baseline fraud detection model. Given the extreme class imbalance (only 0.13% fraud cases), our main goal was to prioritize recall, minimizing the risk of missing fraudulent transactions.
 
-- `StandardScaler` for numerical features
-- `OneHotEncoder` for `type`
-- Balanced class weights to account for fraud rarity
+This section is organized into four parts:
+
+- Data Preprocessing
+
+- Model Pipeline
+
+- Model Evaluation
+
+- Interpretation of Results
+
+### Data Preprocessing
+
+We began by selecting relevant features and dropping columns that do not contribute to the predictive task:
+
+```python
+df_model = df.drop(['nameOrig','nameDest','isFlaggedFraud'], axis=1)
+```
+
+We engineered two new features to highlight suspicious balance behavior:
+
+```python
+df_model['balanceDiffOrg'] = df_model['oldbalanceOrg'] - df_model['newbalanceOrig']
+df_model['balanceDiffDest'] = df_model['newbalanceDest'] - df_model['oldbalanceDest']
+```
+
+We split the dataset and specified columns for preprocessing:
+
+```python
+categorical = ['type']
+numerical = ['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']
+y = df_model['isFraud']
+X = df_model.drop('isFraud', axis=1)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, stratify=y)
+```
+
+We used StandardScaler and OneHotEncoder inside a ColumnTransformer:
+
+```python
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numerical),
+        ('cat', OneHotEncoder(drop='first'), categorical)
+    ],
+    remainder='drop'
+)
+```
+
+### Model Pipeline
+
+We used a pipeline to bundle preprocessing and model training. To handle imbalance, we set class_weight='balanced':
+
+```python
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', LogisticRegression(class_weight='balanced', max_iter=1000))
+])
+pipeline.fit(X_train, y_train)
+```
+
+### Model Evaluation
+We evaluated the model on the test set:
+
+```python
+y_pred = pipeline.predict(X_test)
+print(classification_report(y_test, y_pred))
+```
+
+The classification report indicated:
+
+| **Metric**   | **Class 0 (Legit)** | **Class 1 (Fraud)** |
+|--------------|----------------------|----------------------|
+| Precision    | 1.00                 | 0.02                 |
+| Recall       | 0.95                 | **0.93**             |
+| F1-score     | 0.97                 | 0.04                 |
+
+Although precision for fraud was low (typical in highly imbalanced settings), recall reached 93%, showing the model's ability to catch fraud.
+
+We also displayed the confusion matrix:
+
+![alt text](/img/posts/confusion-matrixviz.png "Confusion Matrix")
 
 ### Performance
 
-- **High recall** (0.93) but **very low precision** (0.02)
-- Detected most frauds but flagged too many non-frauds
+Despite the extremely high class imbalance in the dataset (only 0.13% of transactions are fraudulent), the logistic regression model achieved a 93% recall for fraud cases. This means that 93% of actual fraud cases were successfully identified, which is critical in the context of financial fraud detection, where failing to catch fraud is significantly more costly than investigating false alarms.
 
-![alt text](/img/posts/confusion-matrixviz.png "Confusion Matrix")
+The very low precision for fraud (0.02) and the high number of false positives (99,662) suggest that many legitimate transactions were incorrectly flagged. However, in high-stakes domains like banking, this trade-off is acceptable: it’s preferable to investigate many flagged transactions than to allow fraudulent ones to slip through undetected.
+
+From a business perspective:
+
+- The model minimizes financial losses and customer trust erosion by capturing most fraudulent activity.
+
+- While operational costs may rise due to false alerts (e.g., more manual reviews), these are typically lower than the cost of undetected fraud.
+
+- The model’s behavior aligns well with the organization’s risk-averse stance—prioritizing fraud detection coverage over absolute accuracy.
+
+This interpretation supports the business goal: catch as much fraud as possible, even at the cost of a few false alarms.
 
 ___
 
