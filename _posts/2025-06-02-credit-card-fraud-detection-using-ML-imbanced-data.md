@@ -131,14 +131,6 @@ While fraud is present only in TRANSFER and CASH_OUT transactions, it is importa
 
 To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
 
-### Correlation Matrix
-
-![alt text](/img/posts/Correlation-Matrix.png "Correlation Matrix")
-
-`balanceDiffOrg` shows moderate correlation with fraud.
-
-___
-
 # Feature Engineering <a name="feature-engineering"></a>
 
 Derived features to highlight discrepancies:
@@ -150,6 +142,16 @@ df['balanceDiffDest'] = df['newbalanceDest'] - df['oldbalanceDest']
 Dropped irrelevant or non-informative columns:
 - `nameOrig`, `nameDest`: anonymized identifiers
 - `isFlaggedFraud`: unused feature with negligible positive cases
+
+___
+
+### Correlation Matrix
+
+To understand how these engineered features relate to fraud, I visualized their correlation with the target variable.
+
+![alt text](/img/posts/Correlation-Matrix.png "Correlation Matrix")
+
+From the correlation matrix above, we can observe that the engineered feature balanceDiffOrg shows the strongest positive correlation with isFraud (correlation = 0.36). This makes sense, as fraudulent transactions often result in the sender’s balance dropping sharply, making this difference a useful signal. In contrast, most other features—including the original balance values—have weak or near-zero correlations with fraud. The balanceDiffDest feature has only a slight correlation (0.03), indicating it may be less informative. Overall, this analysis highlights the value of carefully engineered features over raw balance fields when detecting fraudulent behavior.
 
 ___
 
