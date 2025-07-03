@@ -123,7 +123,33 @@ The dataset contains 6,362,620 records of anonymized financial transactions for 
 
 ![alt text](/img/posts/Fraud-Rate.png "Fraud Rate Distribution")
 
+### Transaction Types
+
+![alt text](/img/posts/Transaction-Type.png "Transaction Type")
+
 To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
+
+### Correlation Matrix
+
+![alt text](/img/posts/Correlation-Matrix.png "Correlation Matrix")
+
+`balanceDiffOrg` shows moderate correlation with fraud.
+
+___
+
+# Feature Engineering <a name="feature-engineering"></a>
+
+Derived features to highlight discrepancies:
+```python
+df['balanceDiffOrg'] = df['oldbalanceOrg'] - df['newbalanceOrig']
+df['balanceDiffDest'] = df['newbalanceDest'] - df['oldbalanceDest']
+```
+
+Dropped irrelevant or non-informative columns:
+- `nameOrig`, `nameDest`: anonymized identifiers
+- `isFlaggedFraud`: unused feature with negligible positive cases
+
+___
 
 **Code used to generate the modeling dataset:**
 
@@ -164,9 +190,7 @@ ___
 
 Shows the rarity of fraud cases.
 
-### Transaction Types
 
-![alt text](/img/posts/Transaction-Type.png "Transaction Type")
 
 Distribution of transaction types (PAYMENT dominates).
 
@@ -194,27 +218,7 @@ Boxplot reveals fraud isn't confined to high amounts.
 
 Frauds are not evenly distributed over time.
 
-### Correlation Matrix
 
-![alt text](/img/posts/Correlation-Matrix.png "Correlation Matrix")
-
-`balanceDiffOrg` shows moderate correlation with fraud.
-
-___
-
-# Feature Engineering <a name="feature-engineering"></a>
-
-Derived features to highlight discrepancies:
-```python
-df['balanceDiffOrg'] = df['oldbalanceOrg'] - df['newbalanceOrig']
-df['balanceDiffDest'] = df['newbalanceDest'] - df['oldbalanceDest']
-```
-
-Dropped irrelevant or non-informative columns:
-- `nameOrig`, `nameDest`: anonymized identifiers
-- `isFlaggedFraud`: unused feature with negligible positive cases
-
-___
 
 # Logistic Regression <a name="logistic-regression"></a>
 
