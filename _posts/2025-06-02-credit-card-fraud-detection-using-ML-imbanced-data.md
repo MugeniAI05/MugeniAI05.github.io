@@ -30,23 +30,25 @@ ___
 
 ### Context <a name="overview-context"></a>
 
-I worked on a real-world fraud detection problem using a financial transactions dataset containing over 6 million records. A major challenge in this dataset was severe class imbalance; fraudulent transactions made up only 0.13% of all entries.
+**Context**
 
-My objective was to build a machine learning model that could detect fraud with high recall, since missing fraudulent activity (false negatives) is far more costly than flagging legitimate transactions (false positives) in the banking industry.
+I worked on a real-world fraud detection problem using a publicly available dataset containing over 6.3 million financial transactions. The dataset simulates mobile money transfers and includes various transaction types such as CASH_IN, CASH_OUT, PAYMENT, TRANSFER, and DEBIT. Fraudulent activity is labeled via the isFraud column and occurs exclusively in TRANSFER and CASH_OUT transactions. A key challenge was the severe class imbalance; only 0.13% of all transactions were marked as fraudulent.
+
+My goal was to develop a machine learning model that could detect fraud with high recall, minimizing false negatives. In financial contexts, undetected fraudulent activity can lead to significant monetary losses and reputational damage, making recall a priority over precision.
 
 ### Actions <a name="overview-actions"></a>
 
-I started by exploring the dataset to identify transaction types, detect patterns, and engineer meaningful features like balanceDiffOrg and balanceDiffDest. I focused on high-risk transaction types such as TRANSFER and CASH_OUT, where most fraud cases occurred.
+I began by performing exploratory data analysis to understand transaction patterns, distributional imbalances, and fraud concentration. I engineered behavioral features like balanceDiffOrg and balanceDiffDest to capture how account balances changed before and after transactions, enhancing the model’s ability to detect anomalies. Since fraud was only present in TRANSFER and CASH_OUT types, I gave these special attention in the analysis and modeling stages.
 
-To address the class imbalance, I tested several classification models:
+To handle the imbalance and build robust models, I trained and compared several classifiers:
 
 - **Logistic Regression** with balanced class weights
 
 - **Random Forest**
 
-- **XGBoost**, tuned with scale_pos_weight and custom threshold adjustments
+- **XGBoost**, with custom tuning of scale_pos_weight and classification threshold
 
-I evaluated performance using precision, recall, confusion matrices, and business cost simulations. XGBoost emerged as the top performer, achieving 99% recall at a 0.35 classification threshold, with manageable false positives. I used SHAP values to interpret model predictions, ensuring explainability for a finance context.
+I evaluated each model using recall, precision, confusion matrices, and cost-based threshold simulations. XGBoost emerged as the top performer, achieving 99% recall at a threshold of 0.35, with a manageable number of false positives. I also used SHAP to interpret the model and visualize key drivers of fraud predictions, aligning the solution with financial industry requirements for transparency and explainability.
 
 ### Results <a name="overview-results"></a>
 
