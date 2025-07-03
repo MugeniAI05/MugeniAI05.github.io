@@ -119,6 +119,10 @@ ___
 
 The dataset contains 6,362,620 records of anonymized financial transactions for fraud detection. Each row represents a single transaction, with variables describing the type of transaction, the amount, and the balances before and after the transfer. The binary target variable isFraud indicates whether a transaction was fraudulent (1) or not (0). Only about 0.13% of transactions are labeled as fraud, making it a highly imbalanced classification problem.
 
+### Class Imbalance
+
+![alt text](/img/posts/Fraud-Rate.png "Fraud Rate Distribution")
+
 To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
 
 **Code used to generate the modeling dataset:**
@@ -157,10 +161,6 @@ y = df_model['isFraud']
 ___
 
 # Exploratory Data Analysis <a name="eda"></a>
-
-### Class Imbalance
-
-![alt text](/img/posts/Fraud-Rate.png "Fraud Rate Distribution")
 
 Shows the rarity of fraud cases.
 
