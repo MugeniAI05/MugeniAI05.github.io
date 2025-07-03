@@ -331,19 +331,30 @@ We also displayed the confusion matrix:
 
 ### Performance
 
-Despite the extremely high class imbalance in the dataset (only 0.13% of transactions are fraudulent), the logistic regression model achieved a 93% recall for fraud cases. This means that 93% of actual fraud cases were successfully identified, which is critical in the context of financial fraud detection, where failing to catch fraud is significantly more costly than investigating false alarms.
+Despite the extremely high class imbalance in the dataset (only 0.13% of transactions are fraudulent), the logistic regression model achieved an impressive 93% recall for fraud cases. This means that 93% of actual frauds were successfully identified, which is critical in financial fraud detection, where missing fraud (false negatives) can result in substantial financial loss and regulatory risk.
 
-The very low precision for fraud (0.02) and the high number of false positives (99,662) suggest that many legitimate transactions were incorrectly flagged. However, in high-stakes domains like banking, this trade-off is acceptable: it’s preferable to investigate many flagged transactions than to allow fraudulent ones to slip through undetected.
+### Business Interpretation
 
-From a business perspective:
+The model significantly reduces missed fraud, a top priority in banking. However, it incorrectly flags nearly 100,000 legitimate transactions, creating operational overhead and potential customer friction.
 
-- The model minimizes financial losses and customer trust erosion by capturing most fraudulent activity.
+This behavior is typical in highly imbalanced datasets, where the model is overwhelmed by the majority class. Although we applied class weighting (class_weight='balanced') to penalize the majority class and focus the model on rare fraud cases, logistic regression remains a linear model with limited ability to handle complex, non-linear feature interactions.
 
-- While operational costs may rise due to false alerts (e.g., more manual reviews), these are typically lower than the cost of undetected fraud.
+### Why Logistic Regression May Not Be Ideal
 
-- The model’s behavior aligns well with the organization’s risk-averse stance—prioritizing fraud detection coverage over absolute accuracy.
+While logistic regression offers interpretability and strong recall, its performance is constrained in this setting:
 
-This interpretation supports the business goal: catch as much fraud as possible, even at the cost of a few false alarms.
+- It cannot model complex decision boundaries, which are often necessary for nuanced fraud detection.
+
+- Even with penalty adjustments, it struggles to achieve acceptable precision, and only 2% of fraud predictions were actually fraud.
+
+- The cost of false positives can become operationally unsustainable at scale, requiring a fraud review system to investigate tens of thousands of false alerts daily.
+
+
+### What Comes Next
+
+To address these limitations, we explored non-linear ensemble models next—starting with Random Forest, which naturally handles class imbalance better, supports feature interactions, and offers better control over the precision-recall tradeoff without losing interpretability.
+
+Let me know when you want to proceed with the Random Forest section!
 
 ___
 
