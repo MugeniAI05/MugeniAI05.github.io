@@ -125,6 +125,8 @@ The dataset contains 6,362,620 records of anonymized financial transactions for 
 
 ### Transaction Types
 
+While fraud is present only in TRANSFER and CASH_OUT transactions, it is important to examine the distribution of all transaction types in the dataset. Understanding which transaction types are most common helps contextualize fraud occurrence within the broader transaction volume. The following chart displays the total count of each transaction type, providing insight into the dataset's structure and class imbalance.
+
 ![alt text](/img/posts/Transaction-Type.png "Transaction Type")
 
 To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
