@@ -159,9 +159,9 @@ top_receivers = df['nameDest'].value_counts().head(10)
 fraud_customers = df[df['isFraud'] == 1]['nameOrig'].value_counts().head(10)
 ```
 
-To prepare the data for modeling, I conducted an exploratory analysis and created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
-
 # Feature Engineering <a name="feature-engineering"></a>
+
+To prepare the data for modeling, I created engineered features to better capture suspicious behavior. In particular, I derived balanceDiffOrg and balanceDiffDest to quantify how balances changed before and after a transaction. These features are useful for identifying anomalies, especially in TRANSFER and CASH_OUT transaction types—where all fraud cases occur.
 
 Derived features to highlight discrepancies:
 ```python
