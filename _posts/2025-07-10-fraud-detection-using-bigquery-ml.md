@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Fraud Detection Using BigQuery ML
-image: "/posts/bigquery-fraud-detection-title-img.png"
+image: "/posts/big-query.png"
 tags: [Fraud Detection, BigQuery, Machine Learning, Google Cloud, SQL]
 ---
 
