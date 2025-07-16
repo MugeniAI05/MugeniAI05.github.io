@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fraud Detection Using BigQuery ML
+title: Predictive Modeling with SQL and BigQuery ML
 image: "/posts/big-query.png"
 tags: [BigQuery, SQL, Machine Learning, Google Cloud]
 ---
