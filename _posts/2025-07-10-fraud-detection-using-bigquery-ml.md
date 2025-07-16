@@ -2,7 +2,7 @@
 layout: post
 title: Fraud Detection Using BigQuery ML
 image: "/posts/big-query.png"
-tags: [BigQuery, Machine Learning, Google Cloud, SQL]
+tags: [BigQuery, SQL, Machine Learning, Google Cloud]
 ---
 
 In this project, we used **BigQuery ML** to build and evaluate fraud detection models for financial transaction data, including both **unsupervised** (K-Means) and **supervised** models (Logistic Regression and Boosted Tree). The goal was to detect fraudulent activity more effectively by applying feature engineering and model evaluation strategies directly within Google BigQuery.
