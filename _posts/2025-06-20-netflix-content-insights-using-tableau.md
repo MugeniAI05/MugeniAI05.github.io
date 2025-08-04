@@ -5,9 +5,11 @@ image: "/img/tableau-img.png"
 tags: [Tableau, Data Visualization, Netflix, Dashboard, Analytics]
 ---
 
-In this project, I built an **interactive Tableau dashboard** to analyze Netflix’s global content library. The dashboard explores **content availability**, **genre popularity**, and **production trends** across countries, helping stakeholders identify content gaps and strategic opportunities.
+In this project, I developed a comprehensive interactive Tableau dashboard designed to provide a deep analysis of Netflix’s global content library. The goal was to uncover insights into how Netflix distributes its movies and TV shows across different regions and how content trends have evolved over time. The dashboard integrates several dynamic visualizations that allow users to explore the dataset from multiple perspectives, including content availability by country, genre distribution, and annual production trends.
 
-🎥 **Watch the full walkthrough video below**:
+Through interactive filters and drill-down features, stakeholders can easily identify regional content gaps, observe patterns in genre popularity, and monitor how Netflix has shifted its content strategy, particularly with the rise of Originals after 2015. By highlighting underserved markets and emerging genre trends, the dashboard serves as a valuable tool for decision-makers to craft data-driven strategies aimed at expanding Netflix’s global reach and optimizing its content portfolio.
+
+**Watch the full walkthrough video below**:
 
 <video width="720" height="405" controls>
   <source src="/img/Irene%20Mugeni_Final%20Project.mp4" type="video/mp4">
