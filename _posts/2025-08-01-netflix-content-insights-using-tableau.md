@@ -20,7 +20,7 @@ You can also [**download the video here**](/img/Irene%20Mugeni_Final%20Project.m
 
 # Table of Contents
 
-- [00. Project Overview](#overview-main)
+- [Project Overview](#overview-main)
     - [Context](#overview-context)
     - [Dashboard Features](#overview-features)
     - [Key Insights](#overview-insights)
