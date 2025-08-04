@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Netflix Content Insights – Tableau Dashboard Video Walkthrough
-image: "/img/tableau-img.png"
+image: "/posts/tableau-img.png"
 tags: [Tableau, Data Visualization, Netflix, Dashboard, Analytics]
 ---
 
