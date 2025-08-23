@@ -8,14 +8,14 @@ plugins:
 
 #-------------------------------
 # General Site Settings
-title: <span style="color:#219781">Irène Aimée Mugeni</span>
+title: Irène Aimée Mugeni
 description: "Hi I'm Irène, a recent graduate from the MSBA program at Carnegie Mellon University. My portfolio highlights recent projects I’ve worked on, all centered around generating meaningful business impact. Feel free to explore my GitHub and LinkedIn (or download my Resume) using the links below!"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 #-------------------------------
 # About Section
-subtitle: <span style="color:#219781">Data Science/Business Analytics Portfolio</span>
+subtitle: Data Science/Business Analytics <span style="color:#219781">Portfolio</span>
 location: "Pittsburgh, PA"
 resume_url: /docs/Irene Mugeni 2025.pdf
 avatar_image: /img/IMG_0764 Cropped.jpg
@@ -51,6 +51,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
