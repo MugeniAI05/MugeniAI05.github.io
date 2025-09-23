@@ -5,7 +5,7 @@ image: "/posts/big-query.png"
 tags: [BigQuery, SQL, Machine Learning, Google Cloud]
 ---
 
-In this project, we used **BigQuery ML** to build and evaluate fraud detection models for financial transaction data, including both **unsupervised** (K-Means) and **supervised** models (Logistic Regression and Boosted Tree). The goal was to detect fraudulent activity more effectively by applying feature engineering and model evaluation strategies directly within Google BigQuery.
+In this project, I used **BigQuery ML** to build and evaluate fraud detection models for financial transaction data, including both **unsupervised** (K-Means) and **supervised** models (Logistic Regression and Boosted Tree). The goal was to detect fraudulent activity more effectively by applying feature engineering and model evaluation strategies directly within Google BigQuery.
 
 # Table of contents
 
@@ -45,7 +45,7 @@ The project was built using **BigQuery ML**, which allowed us to perform all dat
 
 ### Results <a name="overview-results"></a>
 
-After training and evaluating both supervised and unsupervised models, we determined that the **Boosted Tree model** provided the best fraud detection performance.
+After training and evaluating both supervised and unsupervised models, I determined that the **Boosted Tree model** provided the best fraud detection performance.
 
 - The **unsupervised K-Means model** successfully grouped transactions and highlighted anomalous clusters.
 - The **Logistic Regression model** achieved strong precision and interpretability.
@@ -85,14 +85,14 @@ Only **TRANSFER** and **CASH_OUT** transactions were retained after filtering fo
 
 # Feature Engineering <a name="feature-engineering"></a>
 
-We engineered the following additional features in SQL:
+I engineered the following additional features in SQL:
 
 - `origzeroFlag`: 1 if the origin balance was 0 before the transaction
 - `destzeroFlag`: 1 if the destination balance remained 0 after receiving funds
 - `amountError`: difference between transferred amount and net balance change
 - `id`: unique identifier for each transaction
 
-We also **undersampled** 90% of non-fraud transactions to address class imbalance and created separate training and test tables using:
+I also **undersampled** 90% of non-fraud transactions to address class imbalance and created separate training and test tables using:
 
 ```sql
 CREATE OR REPLACE TABLE finance.fraud_data_test AS
@@ -102,7 +102,7 @@ SELECT * FROM finance.fraud_data_sample WHERE RAND() < 0.2;
 
 ### Unsupervised Learning: K-Means Clustering <a name="unsupervised-kmeans"></a>
 
-Using ML.CLUSTER in BigQuery ML, we trained a K-Means model with 5 clusters:
+Using ML.CLUSTER in BigQuery ML, I trained a K-Means model with 5 clusters:
 
 
 ```sql
@@ -120,7 +120,7 @@ Evaluation:
 
 ### Supervised Learning: Boosted Tree <a name="supervised-boosted"></a>
 
-Next, we trained a Boosted Tree Classifier using the same dataset:
+Next, I trained a Boosted Tree Classifier using the same dataset:
 
 ```sql
 CREATE OR REPLACE MODEL finance.model_supervised_boosted_tree
@@ -132,7 +132,7 @@ This model improved both precision and recall, making it ideal for high-stakes u
 
 ### Model Evaluation <a name="model-evaluation"></a>
 
-We compared both models using ML.EVALUATE:
+I compared both models using ML.EVALUATE:
 
 ```sql
 CREATE OR REPLACE TABLE finance.table_perf AS
@@ -155,7 +155,7 @@ SELECT * FROM finance.fraud_data_model);
 
 ### Fraud Predictions on New Data <a name="model-prediction"></a>
 
-Using ML.PREDICT(), we applied the champion model to unseen test data:
+Using ML.PREDICT(), I applied the champion model to unseen test data:
 
 ```sql
 SELECT id, label AS predicted, isFraud AS actual
