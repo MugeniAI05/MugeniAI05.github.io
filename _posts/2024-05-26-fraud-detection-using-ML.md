@@ -28,30 +28,30 @@ ___
 
 ### Context <a name="overview-context"></a>
 
-We used a publicly available dataset of credit card transactions to build a machine learning pipeline for fraud detection. Fraudulent transactions are rare but costly — identifying them quickly and accurately can save institutions millions.
+I used a publicly available dataset of credit card transactions to build a machine learning pipeline for fraud detection. Fraudulent transactions are rare but costly — identifying them quickly and accurately can save institutions millions.
 
-The key challenge in this project was working with a highly **imbalanced dataset** where only a small fraction of observations were fraud. This meant that traditional accuracy metrics weren’t sufficient, and we had to focus on F1-score, precision, recall, and AUC.
+The key challenge in this project was working with a highly **imbalanced dataset** where only a small fraction of observations were fraud. This meant that traditional accuracy metrics weren’t sufficient, and I had to focus on F1-score, precision, recall, and AUC.
 
-We aimed to build models that can generalize well and flag suspicious transactions, helping stakeholders take timely action to prevent financial losses.
+I aimed to build models that can generalize well and flag suspicious transactions, helping stakeholders take timely action to prevent financial losses.
 
 <br>
 <br>
 
 ### Actions <a name="overview-actions"></a>
 
-We began by performing **data preprocessing**, including:
+I began by performing **data preprocessing**, including:
 
 - Handling missing values
 - Dropping ID columns
 - Scaling numerical features (e.g., `Amount`) using `StandardScaler`
 - Splitting the dataset into training and test sets
 
-We also addressed the **class imbalance** using methods like:
+I also addressed the **class imbalance** using methods like:
 
 - `class_weight='balanced'` in Logistic Regression
 - `scale_pos_weight` in XGBoost
 
-We trained and evaluated three classification models:
+I trained and evaluated three classification models:
 
 * Logistic Regression  
 * XGBoost Classifier  
@@ -80,7 +80,7 @@ Our testing found that the XGBoost Classifier had the highest predictive accurac
 * Random Forest = 0.99  
 * XGBoost = **1.00**
 
-Given that fraud detection prioritizes minimizing false negatives while balancing false positives, we used **F1-score** and **AUC** as the primary evaluation metrics. XGBoost achieved near-perfect performance on both metrics, making it the model of choice for deployment.
+Given that fraud detection prioritizes minimizing false negatives while balancing false positives, I used **F1-score** and **AUC** as the primary evaluation metrics. XGBoost achieved near-perfect performance on both metrics, making it the model of choice for deployment.
 
 <br>
 <br>
@@ -133,7 +133,7 @@ ___
 
 # Modelling Overview <a name="modelling-overview"></a>
 
-We built and evaluated three models:
+I built and evaluated three models:
 
 - Logistic Regression  
 - XGBoost Classifier  
@@ -150,7 +150,7 @@ ___
 
 # Logistic Regression <a name="logreg-title"></a>
 
-Logistic Regression was used as a baseline model. We applied class weighting to handle imbalance.
+Logistic Regression was used as a baseline model. I applied class weighting to handle imbalance.
 
 ```python
 log_model = LogisticRegression(
@@ -268,7 +268,7 @@ Random Forest provided insight into which features were most influential in dete
 
 ### Correlation Heatmap
 
-We also visualized correlation between features to check for multicollinearity.
+I also visualized correlation between features to check for multicollinearity.
 
 ![Correlation Heatmap](/img/posts/feature-corr-heatmap-rf.png)
 
@@ -283,4 +283,5 @@ Although model performance was excellent, especially with XGBoost, further impro
 - Exploring **deep learning models** or **AutoML** platforms for further automation
 - Deploying the model into a **real-time fraud detection pipeline** with drift monitoring
 - Experimenting with time-based features (e.g., rolling transaction behavior, user patterns)
+
 
