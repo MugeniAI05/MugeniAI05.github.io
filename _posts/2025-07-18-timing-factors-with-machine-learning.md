@@ -2,7 +2,7 @@
 layout: post
 title: Timing Factors Using Machine Learning
 image: "/posts/factor-title-img.png"
-tags: [Finance, Factor Models, Machine Learning, Asset Management, Python]
+tags: [Quantitative Finance, Factor Models, Machine Learning, Asset Management, Python]
 ---
 
 Factor timing has been one of the most debated topics in quantitative finance. Some firms, such as Research Affiliates, argue that factors become “cheap” or “expensive,” making it possible to buy low and sell high. Others, like AQR, find that factor timing is deceptively difficult and rarely outperforms holding static exposures.
