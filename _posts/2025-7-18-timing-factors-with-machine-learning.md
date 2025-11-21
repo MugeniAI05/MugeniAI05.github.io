@@ -121,15 +121,53 @@ Future directions incorporate research on *Factor Investing*, *Model Selection*,
 
 # 01. Data Overview <a name="data-overview"></a>
 
-Dataset includes monthly:
+The dataset integrates:
 
-- HML factor returns  
-- Changes in Treasury bill yields (`tbl_change`)  
-- Book-to-market percentile ranks (`bm_percentile`)  
-- Rolling 12-month HML performance  
-- Risk-free rate  
+- **HML** monthly returns  
+- **RF (Risk-Free Rate)** from Fama–French  
+- **tbl (Treasury bill yield)** from macro predictors  
+- **b/m (book-to-market ratio)**  
+- Rolling 12-month HML average  
+- Derived signals:
+  - tbl_change  
+  - HML_rolling_12m  
+  - bm_percentile  
 
-All variables are merged into a unified monthly dataset for OLS and ML modeling.
+All series are merged by month and aligned for backtesting.
+
+```python
+import pandas as pd
+import statsmodels.api as sm
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import ttest_ind
+
+# Load data
+predictor_data = pd.read_csv('PredictorData2019.csv')
+ff_factors_data = pd.read_csv('F-F_Research_Data_5_Factors_2x3.csv')
+
+# Clean/align dates
+predictor_data["DATE"] = pd.to_datetime(predictor_data["DATE"], format="%m/%d/%Y") + pd.offsets.MonthEnd(0)
+ff_factors_data.rename(columns={"Unnamed: 0": "DATE"}, inplace=True)
+ff_factors_data["DATE"] = pd.to_datetime(ff_factors_data["DATE"], format="%Y%m") + pd.offsets.MonthEnd(0)
+
+# Select relevant columns
+HML_data = ff_factors_data[["DATE", "HML", "RF"]]
+macro_data = predictor_data[["DATE", "tbl", "b/m"]]
+
+# Merge into a single monthly dataframe
+df = pd.merge(HML_data, macro_data, on="DATE", how="inner")
+df.set_index("DATE", inplace=True)
+
+# Derived signals
+df["tbl_change"] = df["tbl"].diff()
+df["HML_rolling_12m"] = df["HML"].rolling(window=12).mean()
+df["bm_percentile"] = df["b/m"].rank(pct=True)
+
+# Drop initial NaNs from rolling/diff
+df.dropna(inplace=True)
+
+```
 
 ---
 
