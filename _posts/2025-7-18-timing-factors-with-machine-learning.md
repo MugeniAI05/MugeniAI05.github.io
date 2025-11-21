@@ -27,7 +27,7 @@ tags: [Quantitative Finance, Factor Models, Machine Learning, Asset Management, 
 ---
 
 Factor timing is one of the longest-running debates in systematic asset management. The central question is simple but difficult: **can we predict when a factor will outperform?**  
-For the Value factor, measured via **HML (High-minus-Low)** from Fama–French — researchers disagree. Some argue factors become “cheap” or “expensive,” while others find that timing signals break down out-of-sample.
+For the Value factor, measured via **HML (High-minus-Low)** from Fama–French, researchers disagree. Some argue factors become “cheap” or “expensive,” while others find that timing signals break down out-of-sample.
 
 This project tests whether **HML (Value)** can be timed using both traditional econometric models and nonlinear machine learning. The analysis follows industry practice: rolling windows, strict out-of-sample evaluation, turnover-adjusted returns, maximum drawdown analysis, and realistic trading cost assumptions.
 
