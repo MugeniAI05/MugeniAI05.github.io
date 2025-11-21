@@ -274,6 +274,26 @@ Signals tested:
 
 These patterns echo findings that simple timing rules rarely deliver out-of-sample gains (Welch & Goyal, 2008).
 
+```python
+timing_results = {}
+
+# tbl_change
+timing_results["tbl_change"] = backtest_timing_strategy(df, "tbl_change")
+
+# HML_rolling_12m
+timing_results["HML_rolling_12m"] = backtest_timing_strategy(df, "HML_rolling_12m")
+
+# bm_percentile
+timing_results["bm_percentile"] = backtest_timing_strategy(df, "bm_percentile")
+
+# combined
+df["combined_signal"] = df["tbl_change"] + df["HML_rolling_12m"] + df["bm_percentile"]
+timing_results["combined"] = backtest_timing_strategy(df, "combined_signal")
+
+timing_results_df = pd.DataFrame.from_dict(timing_results, orient="index")
+timing_results_df
+
+```
 ---
 
 # 04. Drawdown & Sharpe Ratio Results <a name="drawdowns-title"></a>
