@@ -10,7 +10,7 @@ Factor timing is one of the most debated problems in quantitative finance. Some 
 Academic evidence supports this skepticism.  
 Cochrane (2011) shows that valuation ratios predict returns in-sample, but their out-of-sample forecasting power is weak. Welch & Goyal (2008) famously demonstrate that most market-return predictors fail to beat the historical mean. The combination of low signal-to-noise ratios, structural breaks, and high turnover makes timing risk premia exceptionally difficult.
 
-This project tests those claims through a comprehensive empirical analysis of **HML (Value)** timing. Using both traditional rolling-window regressions and machine-learning models, I examine whether any signal can reliably forecast when HML will outperform. All evaluations are fully out-of-sample and adjusted for trading costs — mirroring how systematic portfolio managers vet factor-timing strategies in production environments.
+This project tests those claims through a comprehensive empirical analysis of **HML (Value)** timing. Using both traditional rolling-window regressions and machine-learning models, I examine whether any signal can reliably forecast when HML will outperform. All evaluations are fully out-of-sample and adjusted for trading costs, mirroring how systematic portfolio managers vet factor-timing strategies in production environments.
 
 ---
 
