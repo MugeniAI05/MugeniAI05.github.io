@@ -47,7 +47,7 @@ This question sits at the heart of modern quantitative investing:
 * Some argue factors possess **valuation-driven cycles**, which can be exploited.  
 * Others find that factors behave like **risk premia**, which are difficult to forecast.
 
-The CMU *Data Analytics in Finance* material emphasizes that timing typically fails when:
+Most research emphasizes that timing typically fails when:
 
 - Predictability is weak relative to noise  
 - Models rely heavily on in-sample fits  
