@@ -5,15 +5,6 @@ image: "/posts/factor-title-img.png"
 tags: [Quantitative Finance, Factor Models, Machine Learning, Asset Management, Python]
 ---
 
-Factor timing is one of the most debated problems in quantitative finance. Some practitioners, such as Research Affiliates, argue that factors become “cheap” or “expensive,” creating opportunities to buy low and sell high. Others — notably AQR — argue that factor timing is extremely fragile, prone to overfitting, and rarely delivers reliable outperformance out-of-sample.
-
-Academic evidence supports this skepticism.  
-Cochrane (2011) shows that valuation ratios predict returns in-sample, but their out-of-sample forecasting power is weak. Welch & Goyal (2008) famously demonstrate that most market-return predictors fail to beat the historical mean. The combination of low signal-to-noise ratios, structural breaks, and high turnover makes timing risk premia exceptionally difficult.
-
-This project tests those claims through a comprehensive empirical analysis of **HML (Value)** timing. Using both traditional rolling-window regressions and machine-learning models, I examine whether any signal can reliably forecast when HML will outperform. All evaluations are fully out-of-sample and adjusted for trading costs, mirroring how systematic portfolio managers vet factor-timing strategies in production environments.
-
----
-
 # Table of contents
 
 - [00. Project Overview](#overview-main)
@@ -35,28 +26,40 @@ This project tests those claims through a comprehensive empirical analysis of **
 
 ---
 
+Factor timing is one of the longest-running debates in systematic asset management. The central question is simple but difficult: **can we predict when a factor will outperform?**  
+For the Value factor, measured via **HML (High-minus-Low)** from Fama–French — researchers disagree. Some argue factors become “cheap” or “expensive,” while others find that timing signals break down out-of-sample.
+
+This project tests whether **HML (Value)** can be timed using both traditional econometric models and nonlinear machine learning. The analysis follows industry practice: rolling windows, strict out-of-sample evaluation, turnover-adjusted returns, maximum drawdown analysis, and realistic trading cost assumptions.
+
+---
+
 # 00. Project Overview <a name="overview-main"></a>
 
 ## Context <a name="overview-context"></a>
 
-The goal of this project is to determine whether the **Value factor (HML)** can be *timed*. In other words:  
-**Should we increase or decrease exposure to Value depending on market conditions?**
+**HML (High-minus-Low)** is the Fama–French Value factor. It represents the return difference between high book-to-market stocks (“value”) and low book-to-market stocks (“growth”).  
+While HML has historically delivered a long-term premium, its performance fluctuates sharply. This leads to the question:  
+**Can we predict when exposure to Value should be increased or reduced?**
 
-This question sits at the heart of modern quantitative investing:
+This problem is linked to several well-known challenges:
 
-* Some argue factors possess **valuation-driven cycles**, which can be exploited.  
-* Others find that factors behave like **risk premia**, which are difficult to forecast.
+- **Low signal-to-noise ratio:** Financial return series are extremely noisy, making prediction fragile.  
+- **Structural breaks:** Factor behavior changes over time (tech boom, 2008, 2020).  
+- **Overfitting risk:** Timing models often perform well in-sample but collapse out-of-sample.  
+- **Trading costs:** Even small turnover can destroy timing premiums.  
 
-Most research emphasizes that timing typically fails when:
+Academic literature shows similar difficulty. Welch & Goyal (2008) demonstrate that most return predictors produce **negative out-of-sample R²**, and Cochrane (2011) shows that valuation signals have unstable predictive power across regimes.
 
-- Predictability is weak relative to noise  
-- Models rely heavily on in-sample fits  
-- Trading costs and turnover overwhelm small edges  
-- Structural breaks shift factor behavior  
+This project evaluates:
 
-These risks guide the structure of this project.
+- Three timing signals  
+- 60-month rolling OLS regressions  
+- Classification-based ML models  
+- Out-of-sample performance  
+- Trading-cost-adjusted returns  
+- Drawdowns and risk metrics  
 
-I evaluated three economically motivated timing signals, built rolling-window OLS models, and tested whether machine learning can uncover nonlinear predictability patterns. All results are out-of-sample.
+---
 
 <br>
 
