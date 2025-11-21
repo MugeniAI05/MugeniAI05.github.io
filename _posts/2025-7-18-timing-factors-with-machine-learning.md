@@ -182,8 +182,79 @@ Each timing model is evaluated using a realistic **rolling-window** approach:
 5. Apply transaction costs whenever signals switch  
 6. Compute cumulative return, Sharpe, and drawdown metrics  
 
-This ensures **no look-ahead bias**, aligning with best practices described under *Backtests* in the CMU Active Investment material.
+This replicates realistic institutional backtesting and avoids look-ahead bias.
 
+```python
+def backtest_timing_strategy(df, timing_signal_column):
+    betas, p_values, timing_returns, r_squared = [], [], [], []
+    window_size = 60
+
+    for i in range(len(df) - window_size):
+        train_data = df.iloc[i : i + window_size]
+
+        X_train = sm.add_constant(train_data[[timing_signal_column]])
+        Y_train = train_data["HML"]
+
+        model = sm.OLS(Y_train, X_train).fit()
+
+        betas.append(model.params[timing_signal_column])
+        p_values.append(model.pvalues[timing_signal_column])
+        r_squared.append(model.rsquared)
+
+        next_month = df.iloc[i + window_size]
+
+        if model.params[timing_signal_column] > 0:
+            timing_returns.append(next_month["HML"])
+        else:
+            timing_returns.append(0)
+
+    timing_cum_returns = [1]
+    static_cum_returns = [1]
+
+    for i in range(len(timing_returns)):
+        timing_cum_returns.append(
+            timing_cum_returns[-1] * (1 + timing_returns[i] / 100)
+        )
+        static_cum_returns.append(
+            static_cum_returns[-1] * (1 + df["HML"].values[i + window_size] / 100)
+        )
+
+    timing_cum_returns = np.array(timing_cum_returns[1:])
+    static_cum_returns = np.array(static_cum_returns[1:])
+
+    def calculate_max_drawdown(cum_returns):
+        peaks = np.maximum.accumulate(cum_returns)
+        drawdowns = (peaks - cum_returns) / np.where(peaks == 0, 1e-10, peaks)
+        return np.nanmax(drawdowns)
+
+    timing_max_dd = calculate_max_drawdown(timing_cum_returns)
+    static_max_dd = calculate_max_drawdown(static_cum_returns)
+
+    rf_values = df["RF"].values[window_size:]
+    timing_excess_returns = np.array(timing_returns) / 100 - rf_values
+    static_excess_returns = df["HML"].values[window_size:] / 100 - rf_values
+
+    timing_sharpe_ratio = np.mean(timing_excess_returns) / np.std(timing_excess_returns)
+    static_sharpe_ratio = np.mean(static_excess_returns) / np.std(static_excess_returns)
+
+    t_stat, p_value = ttest_ind(timing_returns, df["HML"].values[window_size:])
+
+    beta_significance = np.mean(np.array(p_values) < 0.05)
+
+    ks_stat, ks_p_value = ks_2samp(timing_returns, df["HML"].values[window_size:])
+
+    return {
+        "T-statistic": t_stat,
+        "P-value": p_value,
+        "Beta Significance": beta_significance,
+        "Sharpe Ratio (Timing)": timing_sharpe_ratio,
+        "Sharpe Ratio (Static)": static_sharpe_ratio,
+        "Max Drawdown (Timing)": timing_max_dd,
+        "Max Drawdown (Static)": static_max_dd,
+        "Kolmogorov-Smirnov Statistic": ks_stat,
+        "Kolmogorov-Smirnov P-value": ks_p_value
+    }
+```
 ---
 
 # 03. OLS Timing Models <a name="ols-title"></a>
