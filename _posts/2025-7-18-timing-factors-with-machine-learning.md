@@ -105,7 +105,7 @@ Random Forest provided the strongest performance but still failed to outperform 
 
 ## Growth/Next Steps <a name="overview-growth"></a>
 
-Future directions incorporate lessons from CMU’s *Factor Investing*, *Model Selection*, and *Active Investment* modules:
+Future directions incorporate research on *Factor Investing*, *Model Selection*, and *Active Investment* modules:
 
 - Add macroeconomic regime indicators (yield curve, credit spreads, inflation surprises)  
 - Use sequence-aware models (LSTM, Transformers)  
