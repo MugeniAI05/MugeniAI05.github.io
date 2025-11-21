@@ -5,6 +5,13 @@ image: "/posts/factor-title-img.png"
 tags: [Quantitative Finance, Factor Models, Machine Learning, Asset Management, Python]
 ---
 
+Factor timing is one of the longest-running debates in systematic asset management. The central question is simple but difficult: **can we predict when a factor will outperform?**  
+For the Value factor, measured via **HML (High-minus-Low)** from Fama–French, researchers disagree. Some argue factors become “cheap” or “expensive,” while others find that timing signals break down out-of-sample.
+
+This project tests whether **HML (Value)** can be timed using both traditional econometric models and nonlinear machine learning. The analysis follows industry practice: rolling windows, strict out-of-sample evaluation, turnover-adjusted returns, maximum drawdown analysis, and realistic trading cost assumptions.
+
+---
+
 # Table of contents
 
 - [00. Project Overview](#overview-main)
@@ -23,13 +30,6 @@ tags: [Quantitative Finance, Factor Models, Machine Learning, Asset Management, 
 - [06. ML Model Summary](#ml-summary)
 - [07. Trading Costs & Capacity](#trading-title)
 - [08. Growth & Next Steps](#growth-next-steps)
-
----
-
-Factor timing is one of the longest-running debates in systematic asset management. The central question is simple but difficult: **can we predict when a factor will outperform?**  
-For the Value factor, measured via **HML (High-minus-Low)** from Fama–French, researchers disagree. Some argue factors become “cheap” or “expensive,” while others find that timing signals break down out-of-sample.
-
-This project tests whether **HML (Value)** can be timed using both traditional econometric models and nonlinear machine learning. The analysis follows industry practice: rolling windows, strict out-of-sample evaluation, turnover-adjusted returns, maximum drawdown analysis, and realistic trading cost assumptions.
 
 ---
 
