@@ -18,7 +18,6 @@ This project tests whether **HML (Value)** can be timed using both traditional e
     - [Context](#overview-context)
     - [Actions](#overview-actions)
     - [Results](#overview-results)
-    - [Growth/Next Steps](#overview-growth)
 - [01. Data Overview](#data-overview)
 - [02. Timing Strategy Overview](#timing-overview)
 - [03. OLS Timing Models](#ols-title)
@@ -105,17 +104,6 @@ This matches published evidence suggesting that factor timing edges are small, u
 Random Forest provided the strongest performance but still failed to outperform the static benchmark with statistical confidence.
 
 <br>
-
-## Growth/Next Steps <a name="overview-growth"></a>
-
-Future directions incorporate research on *Factor Investing*, *Model Selection*, and *Active Investment* modules:
-
-- Add macroeconomic regime indicators (yield curve, credit spreads, inflation surprises)  
-- Use sequence-aware models (LSTM, Transformers)  
-- Apply Bayesian shrinkage (e.g., Campbell–Thompson constraints)  
-- Explore multi-factor timing instead of single-factor timing  
-- Implement turnover-aware portfolio optimization  
-- Examine cross-sectional factor timing, which often exhibits stronger signals  
 
 ---
 
