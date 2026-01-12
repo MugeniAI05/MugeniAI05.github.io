@@ -117,7 +117,7 @@ ralph_lauren_data = {
     ),
     "primary_industry_classification": "Apparel & Luxury Goods"
 }
-
+```
 <br>
 
 ## Methodology Overview <a name="modelling-overview"></a>
@@ -134,7 +134,7 @@ The notebook mirrors how a human analyst would do comps screening:
 ## Broad Screen (LLM Reasoning) <a name="linreg-title"></a>
 
 This step is intentionally *broad*. The notebook prompts the LLM as if it were a senior investment analyst and requests **15–20 publicly traded tickers** that match brand positioning, product categories, and customer demographics — returning **only a JSON list of ticker symbols**.
-```
+```python
 prompt = f"""
 Target Company: {target_company['name']}
 URL: {target_company['url']}
