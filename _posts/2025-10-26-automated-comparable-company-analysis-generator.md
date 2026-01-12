@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Automated Comparable Company Analysis Generator
-image: "/posts/comps-title-img.png"
+image: "/posts/comps-comparables-img.png"
 tags: [Comparable Companies, Equity Research, NLP, Embeddings, Python]
 ---
 
