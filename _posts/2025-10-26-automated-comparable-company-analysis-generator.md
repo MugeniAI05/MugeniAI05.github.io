@@ -39,7 +39,6 @@ In a traditional comps workflow, an analyst must filter thousands of public comp
 This notebook implements an “AI Analyst” pipeline that mimics that decision funnel and produces a **validated comps list** for **Ralph Lauren Corporation**.
 
 <br>
-<br>
 
 ### Actions <a name="overview-actions"></a>
 
@@ -54,7 +53,6 @@ The notebook is structured as a cognitive pipeline with two layers:
 - Applies a **similarity threshold of 0.30** to remove structurally unrelated firms.
 
 <br>
-<br>
 
 ### Results <a name="overview-results"></a>
 
@@ -67,7 +65,6 @@ In the example run shown in the notebook output:
 - Top strategic matches in that run included **PVH**, **Burberry**, **Capri**, **V.F.**, and **Columbia Sportswear**, each passing the similarity threshold.
 
 <br>
-<br>
 
 ### Growth/Next Steps <a name="overview-growth"></a>
 
@@ -78,7 +75,6 @@ A few high-impact upgrades (without changing the spirit of the notebook):
 - Calibrate the similarity threshold using labeled historical comps (human-curated “true comps” sets).
 - Add an analyst review UI: accept/reject comps and store decisions for future retrieval (human-in-the-loop, but scalable).
 
-<br>
 <br>
 
 ### Key Definition  <a name="overview-definition"></a>
