@@ -118,7 +118,6 @@ ralph_lauren_data = {
     "primary_industry_classification": "Apparel & Luxury Goods"
 }
 ```
-<br>
 
 ## Methodology Overview <a name="modelling-overview"></a>
 
@@ -150,3 +149,139 @@ response_text = agent.reason(prompt)
 candidates = json.loads(clean_text)
 
 ```
+
+## Verification (Deterministic Validation) <a name="regtree-title"></a>
+
+This step prevents *LLM hallucination* from leaking into the final comps list by requiring each candidate to pass a real-world check using `yfinance`.
+
+The notebook’s `get_ticker_data()` function:
+
+- Fetches ticker info  
+- Confirms active trading by checking for price fields  
+- Returns useful context fields such as name, website, exchange, long business summary, sector/industry, currency, and market cap  
+
+```python
+def get_ticker_data(ticker: str) -> Optional[Dict]:
+    stock = yf.Ticker(ticker)
+    info = stock.info
+
+    # Validation: confirm actively traded
+    if 'currentPrice' not in info and 'regularMarketPrice' not in info:
+        return None
+
+    return {
+        "name": info.get("longName"),
+        "url": info.get("website"),
+        "exchange": info.get("exchange"),
+        "ticker": ticker.upper(),
+        "business_activity": info.get("longBusinessSummary"),
+        "sector": info.get("sector"),
+        "industry": info.get("industry"),
+        "market_cap": info.get("marketCap", "N/A"),
+        "currency": info.get("currency", "N/A")
+    }
+```
+
+## Semantic Validation (Embeddings + Similarity) <a name="rf-title"></a>
+
+This is the *“Does this company actually live in the same business universe?”* filter.
+
+The notebook:
+
+- Embeds the target description and each candidate’s business summary using `text-embedding-3-small`
+- Computes cosine similarity
+- Applies a strict cutoff of **0.30** to discard low-relevance candidates
+
+```python
+def cosine_similarity(a: List[float], b: List[float]) -> float:
+    return sum(x * y for x, y in zip(a, b))
+
+# Validation logic
+target_embedding = agent.get_embedding(target_company["business_description"])
+candidate_embedding = agent.get_embedding(data["business_activity"])
+similarity_score = cosine_similarity(target_embedding, candidate_embedding)
+
+if similarity_score < 0.3:
+    continue
+```
+> **Note:** In the notebook, the cosine similarity helper is implemented as a dot product.  
+> If embeddings are unit-normalized, the dot product equals cosine similarity.  
+> If they are not unit-normalized, vectors should be explicitly normalized before computing cosine similarity.
+
+## End-to-End Workflow (Pipeline Orchestration) <a name="modelling-summary"></a>
+
+The core orchestration function ties everything together:
+
+1. Ask the LLM for candidates  
+2. Loop through candidates  
+3. Pull `yfinance` metadata and market cap  
+4. Compute embedding similarity  
+5. Keep top validated comps, rank, and export  
+
+```python
+def generate_comparables(target_company: Dict) -> pd.DataFrame:
+    response_text = agent.reason(prompt)
+    candidates = json.loads(clean_text)
+
+    valid_comparables = []
+    target_embedding = agent.get_embedding(target_company["business_description"])
+
+    for ticker in candidates:
+        if len(valid_comparables) >= 10:
+            break
+
+        data = get_ticker_data(ticker)
+        if not data:
+            continue
+
+        if data["business_activity"]:
+            candidate_embedding = agent.get_embedding(data["business_activity"])
+            similarity_score = cosine_similarity(target_embedding, candidate_embedding)
+            if similarity_score < 0.3:
+                continue
+        else:
+            similarity_score = 0
+
+        data["similarity_score"] = round(similarity_score, 2)
+        valid_comparables.append(data)
+
+    df = pd.DataFrame(valid_comparables).sort_values("similarity_score", ascending=False)
+    df.to_csv(f"{target_company['name'].replace(' ', '-')}_comparables.csv", index=False)
+    return df
+```
+
+## Results & Findings <a name="modelling-predictions"></a>
+
+In the notebook output shown:
+
+- The pipeline successfully produced a **ranked comps table** for **Ralph Lauren**.
+- The top rows included the following candidates, with similarity scores in the expected range:
+
+  - **Ralph Lauren (self-check):** 0.88  
+  - **PVH:** 0.52  
+  - **Burberry:** 0.52  
+  - **Capri:** 0.51  
+  - **V.F.:** 0.46  
+
+- Market cap context is included in the output table (pulled from `yfinance`), allowing an analyst to distinguish between:
+  - **Direct operating comps** (closer in size)
+  - **Aspirational / benchmarking peers** (much larger, but strategically relevant)
+
+- Example output fields include:  
+  `name`, `url`, `exchange`, `ticker`, `business_activity`, `sector`, `industry`, `market_cap`, `currency`, `similarity_score`
+
+---
+
+## Growth & Next Steps <a name="growth-next-steps"></a>
+
+This notebook is intentionally *compliance-friendly and explainable*, but it can be extended in several high-impact ways:
+
+- **Normalization + true cosine similarity:** explicitly normalize embeddings before similarity scoring to guarantee correct cosine similarity math.
+- **Better scale filters:** add revenue, EBITDA, or category-specific scale metrics (when available) to cleanly bucket comps.
+- **Richer descriptions:** replace `longBusinessSummary` with curated business descriptions (e.g., 10-K snippets, investor relations text) for stronger semantic signal.
+- **Evaluation harness:** store analyst-approved comps lists and compute precision/recall of the pipeline over time.
+- **Analyst UX:** generate a comps memo (bullets + rationale) alongside the CSV, including clear “why included / why excluded” explanations.
+
+The fun part: this turns comps from a one-off spreadsheet ritual into a **repeatable, auditable system**—still human-guided, but no longer human-exhausting.
+
+
