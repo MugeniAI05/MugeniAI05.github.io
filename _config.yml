@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Irène Aimée Mugeni
-description: "Hi I'm Irène, a recent graduate from the MSBA program at Carnegie Mellon University. My portfolio highlights recent projects I’ve worked on, all centered around generating meaningful business impact. Feel free to explore my GitHub and LinkedIn using the links below!"
+description: "Hi, I’m Irène, a recent MSBA graduate from Carnegie Mellon University with training across machine learning, statistical modeling, optimization, and data-driven decision-making. My portfolio highlights projects where I apply these tools to generate measurable business impact. Feel free to explore my GitHub and LinkedIn using the links below!"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -50,6 +50,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
