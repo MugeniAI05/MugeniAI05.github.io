@@ -1,10 +1,11 @@
-# SPY Options Quantitative Data Pipeline
-
-**Tags:** [Quantitative Finance, ETL Pipeline, Time Series, GARCH, Options Pricing, Python, SQLite]
+---
+layout: post
+title: Building an End-to-End Quantitative Data Pipeline for Options Volatility Research
+image: "/posts/options.png"
+tags: [Quantitative Finance, ETL Pipeline, Time Series, GARCH, Options Pricing, Python, SQLite]
+---
 
 Our goal was to build a production-grade end-to-end quantitative data pipeline for SPY — the world's most liquid ETF — capable of ingesting raw market data, enforcing automated data quality standards, and producing statistically rigorous volatility analysis suitable for a quant research team.
-
----
 
 # Table of Contents
 
