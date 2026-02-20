@@ -5,7 +5,7 @@ image: "/posts/options.png"
 tags: [Quantitative Finance, ETL Pipeline, Time Series, GARCH, Options Pricing, Python, SQLite]
 ---
 
-Our goal was to build a production-grade end-to-end quantitative data pipeline for SPY — the world's most liquid ETF — capable of ingesting raw market data, enforcing automated data quality standards, and producing statistically rigorous volatility analysis suitable for a quant research team.
+Our goal was to build a production-grade end-to-end quantitative data pipeline for SPY, the world's most liquid ETF, capable of ingesting raw market data, enforcing automated data quality standards, and producing statistically rigorous volatility analysis suitable for a quant research team.
 
 # Table of Contents
 
@@ -47,15 +47,13 @@ Our goal was to build a production-grade end-to-end quantitative data pipeline f
 
 ### Context <a name="overview-context"></a>
 
-Quantitative research and risk management teams at exchanges and asset managers depend on reliable, clean, and analytically-rich financial data pipelines. Raw market data from any vendor — paid or free — arrives with gaps, outliers, structural inconsistencies, and quality issues that must be detected and handled before any model can be trusted.
+Quantitative research and risk management teams at exchanges and asset managers depend on reliable, clean, and analytically-rich financial data pipelines. Raw market data from any vendor, paid or free, arrives with gaps, outliers, structural inconsistencies, and quality issues that must be detected and handled before any model can be trusted.
 
-This project builds a three-stage production pipeline around SPY — the SPDR S&P 500 ETF Trust. SPY was chosen deliberately: it is the world's most liquid equity instrument, with deep and continuous options markets, making it an ideal subject for demonstrating end-to-end quant infrastructure. The pipeline covers 2 years of daily OHLCV price history (500 trading days) and 5 near-term options expiration dates comprising 1,046 individual option contracts.
-
-The overall aim is to demonstrate the full stack of skills required for a quantitative data scientist role: robust ETL engineering, automated data quality enforcement, and statistically rigorous financial modelling — all in production-quality Python.
+This project builds a three-stage production pipeline around SPY, the SPDR S&P 500 ETF Trust. SPY was chosen deliberately: it is the world's most liquid equity instrument, with deep and continuous options markets, making it an ideal subject for demonstrating end-to-end quant infrastructure. The pipeline covers 2 years of daily OHLCV price history (500 trading days) and 5 near-term options expiration dates comprising 1,046 individual option contracts.
 
 ### Actions <a name="overview-actions"></a>
 
-We firstly needed to compile the necessary financial data from Yahoo Finance via the `yfinance` library, storing it in a well-designed SQLite database with three tables: `price_history`, `options_chain`, and `etl_log`. The pipeline is broken into three modular stages that mirror real quant infrastructure:
+We first needed to compile the necessary financial data from Yahoo Finance via the `yfinance` library, storing it in a well-designed SQLite database with three tables: `price_history`, `options_chain`, and `etl_log`. The pipeline is broken into three modular stages that mirror real quant infrastructure:
 
 * **Stage 1 — ETL Pipeline**: Data ingestion from Yahoo Finance → SQLite with retry logic, upserts, and full audit logging
 * **Stage 2 — Data Validation**: 8 automated quality checks covering price spikes, OHLC integrity, bid-ask inversions, IV outliers, data freshness, and more
