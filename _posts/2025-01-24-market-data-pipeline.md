@@ -408,7 +408,7 @@ def check_price_spikes(df: pd.DataFrame) -> pd.DataFrame:
 
 ```
 
-This check **found 4 spikes**, all confirmed as real market events. Specifically, they all cluster around April 3–10 2025, which coincides precisely with the Trump tariff announcement and the subsequent market whipsaw — including a historic single-day rally of +10.50% on April 9 when the tariff pause was announced:
+This check **found 4 spikes**, all confirmed as real market events. Specifically, they all cluster around April 3–10 2025, which coincides precisely with the Trump tariff announcement and the subsequent market whipsaw, including a historic single-day rally of +10.50% on April 9 when the tariff pause was announced:
 
 | Date | Close | Return | Z-Score | Context |
 |---|---|---|---|---|
@@ -525,11 +525,11 @@ def check_bid_ask_inversions(df: pd.DataFrame) -> pd.DataFrame:
 
 ```
 
-Result: **0 inversions, 47 wide spreads**. The 47 wide spreads are entirely concentrated in deep out-of-the-money strikes with negligible liquidity — expected behaviour for weekly options near expiration, not a data error. ✓
+Result: **0 inversions, 47 wide spreads**. The 47 wide spreads are entirely concentrated in deep out-of-the-money strikes with negligible liquidity, expected behaviour for weekly options near expiration, not a data error. ✓
 
 ### Check 6 — Implied Volatility Outliers <a name="check-iv"></a>
 
-Options with zero IV indicate missing data from the vendor. Options with IV > 500% are almost certainly far out-of-the-money contracts where the Black-Scholes model breaks down and the market quote is essentially noise.
+Options with zero IV indicate missing data from the vendor. Options with IV > 500% are almost certainly far out-of-the-money contracts where the Black-Scholes model breaks down, and the market quote is essentially noise.
 
 ```python
 
