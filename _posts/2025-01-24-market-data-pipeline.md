@@ -5,7 +5,7 @@ image: "/posts/vol_analysis.png"
 tags: [Quantitative Finance, ETL Pipeline, Time Series, GARCH, Options Pricing, Python, SQLite]
 ---
 
-Our goal was to build a production-grade end-to-end quantitative data pipeline for SPY, the world's most liquid ETF, capable of ingesting raw market data, enforcing automated data quality standards, and producing statistically rigorous volatility analysis suitable for a quant research team.
+My goal was to build a production-grade end-to-end quantitative data pipeline for SPY, the world's most liquid ETF, capable of ingesting raw market data, enforcing automated data quality standards, and producing statistically rigorous volatility analysis suitable for a quant research team.
 
 The full source code, including the ETL, validation, analysis, scheduler, and alert system, is available on GitHub: **[spy-volatility-pipeline](https://github.com/MugeniAI05/spy-volatility-pipeline)**
 
@@ -53,11 +53,11 @@ Quantitative research and risk management teams at exchanges and asset managers 
 
 This project builds a three-stage production pipeline around SPY, the SPDR S&P 500 ETF Trust. SPY was chosen deliberately: it is the world's most liquid equity instrument, with deep and continuous options markets, making it an ideal subject for demonstrating end-to-end quant infrastructure. The pipeline covers 2 years of daily OHLCV price history and 5 near-term options expiration dates.
 
-The project is structured as a proper Python package — not notebooks. All logic lives in importable modules under `src/`, with a master orchestrator (`run_pipeline.py`), a daily scheduler (`scheduler.py`), a centralised config (`config.py`), and an email alert system (`src/notifier.py`). The pipeline runs automatically every weekday at 4:15 PM local time, 15 minutes after market close.
+The project is structured as a Python package. All logic lives in importable modules under `src/`, with a master orchestrator (`run_pipeline.py`), a daily scheduler (`scheduler.py`), a centralised config (`config.py`), and an email alert system (`src/notifier.py`). The pipeline runs automatically every weekday at 4:15 PM local time, 15 minutes after market close.
 
 ### Actions <a name="overview-actions"></a>
 
-We first needed to compile the necessary financial data from Yahoo Finance via the `yfinance` library, storing it in a well-designed SQLite database with four tables: `price_history`, `options_chain`, `etl_log`, and `analysis_results`. The pipeline is broken into three modular stages that mirror real quant infrastructure:
+I first needed to compile the necessary financial data from Yahoo Finance via the `yfinance` library, storing it in a well-designed SQLite database with four tables: `price_history`, `options_chain`, `etl_log`, and `analysis_results`. The pipeline is broken into three modular stages that mirror real quant infrastructure:
 
 * **Stage 1 — ETL Pipeline**: Data ingestion from Yahoo Finance → SQLite with retry logic, upserts, and full audit logging
 * **Stage 2 — Data Validation**: 8 automated quality checks covering price spikes, OHLC integrity, bid-ask inversions, IV outliers, data freshness, and more
