@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Building an End-to-End Quantitative Data Pipeline for Options Volatility Research
-image: "/posts/options.png"
+image: "/posts/vol_analysis.png"
 tags: [Quantitative Finance, ETL Pipeline, Time Series, GARCH, Options Pricing, Python, SQLite]
 ---
 
